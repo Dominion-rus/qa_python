@@ -64,6 +64,40 @@ class TestBooksCollector:
     def test_check_rating_empty_book(self,new_collector):
         assert new_collector.get_book_rating('Проектирование виртуальных миров') is None
 
+    #Test_9 - Добавление книги в избранное
+
+    def test_add_book_to_favorite(self,new_collector):
+        new_collector.add_new_book('Задача трех тел')
+        new_collector.set_book_rating('Задача трех тел', 9)
+        new_collector.add_book_in_favorites('Задача трех тел')
+        assert 'Задача трех тел' in new_collector.get_list_of_favorites_books()
+
+    # Test_10 - Проверка удаления книги из избранного
+
+    def test_delete_book_from_favorite(self,new_collector):
+        new_collector.add_new_book('Задача трех тел')
+        new_collector.set_book_rating('Задача трех тел', 9)
+        new_collector.add_book_in_favorites('Задача трех тел')
+        new_collector.delete_book_from_favorites('Задача трех тел')
+        assert new_collector.get_list_of_favorites_books()==[]
+
+    # Test_11 - Нельзя добавить книгу в избранное если ее нет в словаре book_rating
+
+    def test_cannot_add_book_to_favorites_if_book_not_in_books_rating(self,new_collector):
+        new_collector.add_book_in_favorites('Проектирование виртуальных миров')
+        assert len(new_collector.get_list_of_favorites_books())==0
+
+    # Test_12 -Проверка вывода списка книг с определенным рейтингом
+
+    def test_get_books_with_specific_rating_books_with_rating_equals_9(self,new_collector):
+        new_collector.add_new_book('Задача трех тел')
+        new_collector.set_book_rating('Задача трех тел', 9)
+        new_collector.add_new_book('Проектирование виртуальных миров')
+        new_collector.add_new_book('Убейте Дракона')
+        new_collector.set_book_rating('Убейте Дракона',5)
+        assert len(new_collector.get_books_with_specific_rating(9))==1
+
+
 
 
 
